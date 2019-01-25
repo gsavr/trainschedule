@@ -170,7 +170,7 @@ $(document).on("mouseover", function(){ // for laptop / desktop
     $(".Blue").attr("disabled",true)
 });
 
-$(document).live("touchstart",function(){  // for mobile touchscreen devices
+$(document).on("touchstart",function(){  // for mobile touchscreen devices
     $(".Brightline").attr("disabled",true);
     $(".Hogwarts").attr("disabled",true);
     $(".AmTrak").attr("disabled",true);
