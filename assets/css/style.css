@@ -25,6 +25,14 @@ html body{
     border-color: #178ab8;
 }
 
+.container{
+    min-width: 540px;
+}
+
+form{
+    min-width: 540px;
+}
+
 th{
     padding-left:0px !important;
     padding-right:10px !important;
