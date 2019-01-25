@@ -39,6 +39,11 @@ form{
     margin-bottom:30px;
 }
 
+.btn-sm{
+    margin-right:5px;
+    margin-bottom: 5px;
+}
+
 .footer {
     background-color: #f5f5f5;
     position: absolute; 
