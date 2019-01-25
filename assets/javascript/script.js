@@ -12,7 +12,6 @@ var config = {
 database = firebase.database();
 
 
-
 $("#submit").on("click", function(event){
     event.preventDefault();
     var name = $("#nameInput").val().trim();
@@ -29,15 +28,20 @@ $("#submit").on("click", function(event){
         name: name,
         destination: destination,
         start: start,
-        freq: freq
+        freq: freq,
     }
-    database.ref("trains/").push(newTrain);
+
+    //database.ref("trains/").push(newTrain);
+    var key = database.ref("trains/").push(newTrain).getKey(); // this pushes the information and grabs the ID from the db
+    console.log("key is "+key)
+
+    database.ref("trains/"+key).update({key:key});
 
     $("#nameInput").val("")
     $("#destinationInput").val("")
     $("#startInput").val("")
     $("#frequencyInput").val("")
-
+    
     console.log(newTrain.name);
     console.log(newTrain.destination);
     console.log(newTrain.start);
@@ -56,15 +60,35 @@ console.log("StartTimeU: "+startTimeU)
 var freq = newRecord.freq;
 console.log("every "+freq+" min")
 
+key = newRecord.key;
+console.log("dbID for train: "+key)
+
 //math to get the minutes remainding until next train
 var tRemainder = moment().diff(moment.unix(startTimeU), "minutes") % freq;
 var timeRemain = freq - tRemainder;
+console.log("min remaining: "+timeRemain)
 
 var nextTrain = moment().add(timeRemain, "minutes").format("LT");
 console.log("nextTrain: "+nextTrain)
 
-$("tbody").append("<tr><td>"+newRecord.name+"</td><td>"+newRecord.destination+"</td><td>"+newRecord.freq+" min</td><td>"+nextTrain+"</td><td>"+timeRemain+"  min</td><td>"+startTime+"</td>")
+$("tbody").append("<tr><td>"+newRecord.name+"</td><td>"+newRecord.destination+"</td><td>"+newRecord.freq+" min</td><td>"+nextTrain+"</td><td>"+timeRemain+"  min</td><td>"+startTime+"</td><td> <button class='btn btn-outline-secondary btn-sm remove "+newRecord.name+"' id='"+key+"' style='font-size:8px'>Remove</button></td>")
 
 });
+
+$(document).on("click", ".remove", function(event){
+    event.preventDefault();
+    $(this).closest ('tr').remove();
+     trainId = $(this).attr('id'); 
+    console.log(trainId)
+    database.ref("trains/"+trainId).remove();
+});
+
 $(".currentTime").text(moment().format("llll"))
 console.log(moment().format("hh:mm"))
+
+$(document).on("mouseover", function(){
+    $(".Brightline").attr("disabled",true);//.css("display","none")  or .addClass('btn-disabled');
+    $(".Hogwarts").attr("disabled",true);
+    $(".AmTrak").attr("disabled",true);
+    $(".Blue").attr("disabled",true)
+});
