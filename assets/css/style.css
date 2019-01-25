@@ -25,11 +25,7 @@ html body{
     border-color: #178ab8;
 }
 
-.container{
-    min-width: 540px;
-}
-
-form{
+.card{
     min-width: 540px;
 }
 
